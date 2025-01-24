@@ -33,7 +33,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Basic validation
