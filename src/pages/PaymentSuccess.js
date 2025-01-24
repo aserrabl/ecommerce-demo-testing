@@ -5,9 +5,9 @@ import {
   Paper,
   Typography,
   Button,
-  Box,
-  CheckCircleOutline
+  Box
 } from '@mui/material';
+import CheckCircleOutline from '@mui/icons-material/CheckCircleOutline';
 
 const PaymentSuccess = () => {
   const location = useLocation();
