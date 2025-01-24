@@ -22,13 +22,36 @@ function App() {
   }, [cartItems]);
 
   const handleAddToCart = (product) => {
-    setCartItems([...cartItems, product]);
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(item => item.id === product.id);
+      if (existingItem) {
+        return prevItems.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prevItems, { ...product, quantity: 1 }];
+    });
     setIsDrawerOpen(true);
   };
 
-  const handleRemoveFromCart = (index) => {
-    const newCartItems = cartItems.filter((_, i) => i !== index);
-    setCartItems(newCartItems);
+  const handleRemoveFromCart = (productId) => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+  };
+
+  const handleUpdateQuantity = (productId, newQuantity) => {
+    if (newQuantity < 1) {
+      handleRemoveFromCart(productId);
+      return;
+    }
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === productId
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
   };
 
   return (
@@ -50,6 +73,7 @@ function App() {
           onClose={() => setIsDrawerOpen(false)}
           cartItems={cartItems}
           onRemoveFromCart={handleRemoveFromCart}
+          onUpdateQuantity={handleUpdateQuantity}
         />
       </Container>
     </>

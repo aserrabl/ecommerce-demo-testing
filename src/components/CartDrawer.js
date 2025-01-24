@@ -6,12 +6,16 @@ import {
   ListItemText,
   Typography,
   IconButton,
-  Box
+  Box,
+  ButtonGroup,
+  Button
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
-const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart }) => {
-  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart, onUpdateQuantity }) => {
+  const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
@@ -20,19 +24,32 @@ const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart }) => {
           Shopping Cart
         </Typography>
         <List>
-          {cartItems.map((item, index) => (
+          {cartItems.map((item) => (
             <ListItem
-              key={`${item.id}-${index}`}
+              key={item.id}
               secondaryAction={
-                <IconButton edge="end" onClick={() => onRemoveFromCart(index)}>
+                <IconButton edge="end" onClick={() => onRemoveFromCart(item.id)}>
                   <DeleteIcon />
                 </IconButton>
               }
             >
               <ListItemText
                 primary={item.name}
-                secondary={`$${item.price.toFixed(2)}`}
+                secondary={`$${(item.price * item.quantity).toFixed(2)}`}
               />
+              <ButtonGroup size="small" sx={{ mx: 2 }}>
+                <Button
+                  onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                >
+                  <RemoveIcon fontSize="small" />
+                </Button>
+                <Button disabled>{item.quantity}</Button>
+                <Button
+                  onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                >
+                  <AddIcon fontSize="small" />
+                </Button>
+              </ButtonGroup>
             </ListItem>
           ))}
         </List>
