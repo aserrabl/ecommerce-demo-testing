@@ -36,18 +36,6 @@ const Checkout = ({ cartItems, setCartItems }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Basic validation
-    if (!formData.cardNumber || !formData.expiryDate || !formData.cvv || !formData.name) {
-      setError('Please fill in all fields');
-      return;
-    }
-
-    // Simple card number validation
-    if (formData.cardNumber.replace(/\s/g, '').length !== 16) {
-      setError('Invalid card number');
-      return;
-    }
-
     setIsProcessing(true);
     setError('');
 
