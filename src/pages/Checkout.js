@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { processPayment } from '../services/paymentService';
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -20,6 +21,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
     name: ''
   });
   const [error, setError] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -46,12 +48,26 @@ const Checkout = ({ cartItems, setCartItems }) => {
       return;
     }
 
-    // Simulate payment processing
-    setTimeout(() => {
+    setIsProcessing(true);
+    setError('');
+
+    try {
+      const paymentResult = await processPayment({
+        amount: total,
+        cardNumber: formData.cardNumber,
+        expiryDate: formData.expiryDate,
+        cvv: formData.cvv,
+        name: formData.name
+      });
+      
       setCartItems([]);
       navigate('/');
-      alert('Payment successful! Thank you for your purchase.');
-    }, 1500);
+      alert(`Payment successful! Transaction ID: ${paymentResult.transactionId}`);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (cartItems.length === 0) {
@@ -153,8 +169,9 @@ const Checkout = ({ cartItems, setCartItems }) => {
               variant="contained"
               type="submit"
               color="primary"
+              disabled={isProcessing}
             >
-              Pay ${total.toFixed(2)}
+              {isProcessing ? 'Processing...' : `Pay $${total.toFixed(2)}`}
             </Button>
           </Box>
         </form>
