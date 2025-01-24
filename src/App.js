@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Container, Grid, CssBaseline } from '@mui/material';
 import ProductCard from './components/ProductCard';
 import CartDrawer from './components/CartDrawer';
+import Checkout from './pages/Checkout';
 import { products } from './data/products';
 
 function App() {
@@ -37,6 +39,10 @@ function App() {
   };
 
   const handleRemoveFromCart = (productId) => {
+    if (productId === 'all') {
+      setCartItems([]);
+      return;
+    }
     setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
   };
 
@@ -57,25 +63,41 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Grid container spacing={2}>
-          {products.map((product) => (
-            <Grid item xs={12} sm={6} md={3} key={product.id}>
-              <ProductCard
-                product={product}
-                onAddToCart={handleAddToCart}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Container maxWidth="lg" sx={{ py: 4 }}>
+              <Grid container spacing={2}>
+                {products.map((product) => (
+                  <Grid item xs={12} sm={6} md={3} key={product.id}>
+                    <ProductCard
+                      product={product}
+                      onAddToCart={handleAddToCart}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+              <CartDrawer
+                open={isDrawerOpen}
+                onClose={() => setIsDrawerOpen(false)}
+                cartItems={cartItems}
+                onRemoveFromCart={handleRemoveFromCart}
+                onUpdateQuantity={handleUpdateQuantity}
               />
-            </Grid>
-          ))}
-        </Grid>
-        <CartDrawer
-          open={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
-          cartItems={cartItems}
-          onRemoveFromCart={handleRemoveFromCart}
-          onUpdateQuantity={handleUpdateQuantity}
+            </Container>
+          }
         />
-      </Container>
+        <Route
+          path="/checkout"
+          element={
+            <Checkout
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+            />
+          }
+        />
+      </Routes>
     </>
   );
 }

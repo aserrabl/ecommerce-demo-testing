@@ -8,8 +8,10 @@ import {
   IconButton,
   Box,
   ButtonGroup,
-  Button
+  Button,
+  Divider
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -56,6 +58,30 @@ const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart, onUpdateQuanti
         <Typography variant="h6" sx={{ mt: 2, textAlign: 'right' }}>
           Total: ${total.toFixed(2)}
         </Typography>
+        <Divider sx={{ my: 2 }} />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => {
+              onRemoveFromCart('all');
+              onClose();
+            }}
+          >
+            Empty Cart
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              onClose();
+              useNavigate()('/checkout');
+            }}
+            disabled={cartItems.length === 0}
+          >
+            Checkout
+          </Button>
+        </Box>
       </Box>
     </Drawer>
   );
