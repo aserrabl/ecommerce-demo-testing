@@ -4,6 +4,7 @@ import { Container, Grid, CssBaseline } from '@mui/material';
 import ProductCard from './components/ProductCard';
 import CartDrawer from './components/CartDrawer';
 import Checkout from './pages/Checkout';
+import PaymentSuccess from './pages/PaymentSuccess';
 import { products } from './data/products';
 
 function App() {
@@ -96,6 +97,10 @@ function App() {
               setCartItems={setCartItems}
             />
           }
+        />
+        <Route
+          path="/success/:transactionId"
+          element={<PaymentSuccess />}
         />
       </Routes>
     </>

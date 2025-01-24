@@ -48,9 +48,13 @@ const Checkout = ({ cartItems, setCartItems }) => {
         name: formData.name
       });
       
+      navigate(`/success/${paymentResult.transactionId}`, { 
+        state: { 
+          transactionId: paymentResult.transactionId,
+          timestamp: paymentResult.timestamp
+        }
+      });
       setCartItems([]);
-      navigate('/');
-      alert(`Payment successful! Transaction ID: ${paymentResult.transactionId}`);
     } catch (err) {
       setError(err.message);
     } finally {
