@@ -17,6 +17,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart, onUpdateQuantity }) => {
+  const navigate = useNavigate();
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   return (
@@ -75,7 +76,7 @@ const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart, onUpdateQuanti
             color="primary"
             onClick={() => {
               onClose();
-              useNavigate()('/checkout');
+              navigate('/checkout');
             }}
             disabled={cartItems.length === 0}
           >
