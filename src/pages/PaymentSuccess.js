@@ -25,10 +25,10 @@ const PaymentSuccess = () => {
           Thank you for your purchase. Your transaction has been completed successfully.
         </Typography>
         <Box sx={{ my: 2 }}>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" data-testid="transaction-id">
             Transaction ID: {transactionId}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" data-testid="transaction-date">
             Date: {new Date(timestamp).toLocaleString()}
           </Typography>
         </Box>

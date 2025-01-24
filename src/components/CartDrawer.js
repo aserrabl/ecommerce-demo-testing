@@ -21,9 +21,9 @@ const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart, onUpdateQuanti
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose}>
+    <Drawer anchor="right" open={open} onClose={onClose} data-testid="cart-drawer">
       <Box sx={{ width: 350, p: 2 }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom data-testid="cart-title">
           Shopping Cart
         </Typography>
         <List>
@@ -31,7 +31,11 @@ const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart, onUpdateQuanti
             <ListItem
               key={item.id}
               secondaryAction={
-                <IconButton edge="end" onClick={() => onRemoveFromCart(item.id)}>
+                <IconButton 
+                  edge="end" 
+                  onClick={() => onRemoveFromCart(item.id)}
+                  data-testid={`remove-item-${item.id}`}
+                >
                   <DeleteIcon />
                 </IconButton>
               }
@@ -43,12 +47,14 @@ const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart, onUpdateQuanti
               <ButtonGroup size="small" sx={{ mx: 2 }}>
                 <Button
                   onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                  data-testid={`decrease-quantity-${item.id}`}
                 >
                   <RemoveIcon fontSize="small" />
                 </Button>
-                <Button disabled>{item.quantity}</Button>
+                <Button disabled data-testid={`quantity-${item.id}`}>{item.quantity}</Button>
                 <Button
                   onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                  data-testid={`increase-quantity-${item.id}`}
                 >
                   <AddIcon fontSize="small" />
                 </Button>
@@ -68,6 +74,7 @@ const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart, onUpdateQuanti
               onRemoveFromCart('all');
               onClose();
             }}
+            data-testid="empty-cart"
           >
             Empty Cart
           </Button>
@@ -79,6 +86,7 @@ const CartDrawer = ({ open, onClose, cartItems, onRemoveFromCart, onUpdateQuanti
               navigate('/checkout');
             }}
             disabled={cartItems.length === 0}
+            data-testid="checkout-button"
           >
             Checkout
           </Button>

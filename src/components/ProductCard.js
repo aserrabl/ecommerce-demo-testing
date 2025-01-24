@@ -22,6 +22,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           color="primary" 
           onClick={() => onAddToCart(product)}
           sx={{ mt: 2 }}
+          data-testid={`add-to-cart-${product.id}`}
         >
           Add to Cart
         </Button>

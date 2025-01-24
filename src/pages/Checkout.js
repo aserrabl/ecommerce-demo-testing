@@ -115,6 +115,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
+                data-testid="cardholder-name-input"
               />
             </Grid>
             <Grid item xs={12}>
@@ -125,6 +126,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
                 value={formData.cardNumber}
                 onChange={handleInputChange}
                 inputProps={{ maxLength: 16 }}
+                data-testid="card-number-input"
               />
             </Grid>
             <Grid item xs={6}>
@@ -135,6 +137,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
                 value={formData.expiryDate}
                 onChange={handleInputChange}
                 inputProps={{ maxLength: 5 }}
+                data-testid="expiry-date-input"
               />
             </Grid>
             <Grid item xs={6}>
@@ -146,6 +149,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
                 onChange={handleInputChange}
                 inputProps={{ maxLength: 3 }}
                 type="password"
+                data-testid="cvv-input"
               />
             </Grid>
           </Grid>
@@ -154,6 +158,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
             <Button
               variant="outlined"
               onClick={() => navigate('/')}
+              data-testid="back-to-shop"
             >
               Back to Shop
             </Button>
@@ -162,6 +167,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
               type="submit"
               color="primary"
               disabled={isProcessing}
+              data-testid="submit-payment"
             >
               {isProcessing ? 'Processing...' : `Pay $${total.toFixed(2)}`}
             </Button>
