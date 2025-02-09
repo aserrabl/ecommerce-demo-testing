@@ -1,15 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Container, Grid, CssBaseline } from '@mui/material';
+import { Container, Grid, CssBaseline, Box, Typography } from '@mui/material';
+import Notification from './components/Notification';
+import Header from './components/Header';
 import ProductCard from './components/ProductCard';
 import CartDrawer from './components/CartDrawer';
 import Checkout from './pages/Checkout';
 import PaymentSuccess from './pages/PaymentSuccess';
-import { products } from './data/products';
-
 function App() {
+  const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [notification, setNotification] = useState({ open: false, message: '' });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/products');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json();
+        setProducts(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+  
+  // WebSocket connection
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:3001/ws');
+    
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === 'purchase') {
+        const message = `One user in ${data.data.city} has bought ${data.data.product.name}. Hurry up!`;
+        setNotification({ open: true, message });
+      }
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
+  const handleCloseNotification = useCallback(() => {
+    setNotification(prev => ({ ...prev, open: false }));
+  }, []);
 
   // Load cart items from localStorage on component mount
   useEffect(() => {
@@ -64,21 +113,36 @@ function App() {
   return (
     <>
       <CssBaseline />
+      <Notification
+        open={notification.open}
+        message={notification.message}
+        onClose={handleCloseNotification}
+      />
+      <Header 
+        cartItemsCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+        onCartClick={() => setIsDrawerOpen(true)}
+      />
       <Routes>
         <Route
           path="/"
           element={
-            <Container maxWidth="lg" sx={{ py: 4 }}>
-              <Grid container spacing={2}>
-                {products.map((product) => (
+            <Container maxWidth="lg" sx={{ py: 2 }}>
+              {loading ? (
+                <Typography>Loading products...</Typography>
+              ) : error ? (
+                <Typography color="error">{error}</Typography>
+              ) : (
+                <Grid container spacing={2}>
+                  {products.map((product) => (
                   <Grid item xs={12} sm={6} md={3} key={product.id}>
                     <ProductCard
                       product={product}
                       onAddToCart={handleAddToCart}
                     />
                   </Grid>
-                ))}
-              </Grid>
+                  ))}
+                </Grid>
+              )}
               <CartDrawer
                 open={isDrawerOpen}
                 onClose={() => setIsDrawerOpen(false)}

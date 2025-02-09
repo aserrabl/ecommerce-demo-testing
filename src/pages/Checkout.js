@@ -40,21 +40,20 @@ const Checkout = ({ cartItems, setCartItems }) => {
     setError('');
 
     try {
-      const paymentResult = await processPayment({
-        amount: total,
-        cardNumber: formData.cardNumber,
-        expiryDate: formData.expiryDate,
-        cvv: formData.cvv,
-        name: formData.name
-      });
+      const paymentResult = await processPayment(formData, cartItems);
       
-      navigate(`/success/${paymentResult.transactionId}`, { 
-        state: { 
-          transactionId: paymentResult.transactionId,
-          timestamp: paymentResult.timestamp
-        }
-      });
-      setCartItems([]);
+      // Only clear cart and navigate on success
+      if (paymentResult.success) {
+        setCartItems([]);
+        navigate(`/success/${paymentResult.transactionId}`, { 
+          state: { 
+            transactionId: paymentResult.transactionId,
+            timestamp: paymentResult.timestamp
+          }
+        });
+      } else {
+        throw new Error(paymentResult.message || 'Payment failed');
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -101,7 +100,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
         </Box>
 
         {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert severity="error" sx={{ mb: 2 }} data-testid="payment-error">
             {error}
           </Alert>
         )}
