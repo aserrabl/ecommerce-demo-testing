@@ -14,6 +14,15 @@ function App() {
   const [notification, setNotification] = useState({ open: false, message: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [cartTimeout, setCartTimeout] = useState(null);
+
+  const clearCart = useCallback(() => {
+    setCartItems([]);
+    setNotification({ 
+      open: true, 
+      message: 'Your cart has been cleared due to inactivity'
+    });
+  }, []);
 
   // Fetch products from API
   useEffect(() => {
@@ -73,7 +82,25 @@ function App() {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
+  // Cleanup cart timeout
+  useEffect(() => {
+    return () => {
+      if (cartTimeout) {
+        clearTimeout(cartTimeout);
+      }
+    };
+  }, [cartTimeout]);
+
   const handleAddToCart = (product) => {
+    // Clear any existing timeout
+    if (cartTimeout) {
+      clearTimeout(cartTimeout);
+    }
+
+    // Set new timeout
+    const timeout = setTimeout(clearCart, 15 * 60 * 1000); // 15 minutes
+    setCartTimeout(timeout);
+
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === product.id);
       if (existingItem) {
@@ -91,9 +118,20 @@ function App() {
   const handleRemoveFromCart = (productId) => {
     if (productId === 'all') {
       setCartItems([]);
+      if (cartTimeout) {
+        clearTimeout(cartTimeout);
+        setCartTimeout(null);
+      }
       return;
     }
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+    setCartItems(prevItems => {
+      const newItems = prevItems.filter(item => item.id !== productId);
+      if (newItems.length === 0 && cartTimeout) {
+        clearTimeout(cartTimeout);
+        setCartTimeout(null);
+      }
+      return newItems;
+    });
   };
 
   const handleUpdateQuantity = (productId, newQuantity) => {
