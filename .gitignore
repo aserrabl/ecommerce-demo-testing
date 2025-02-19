@@ -2,3 +2,9 @@
 .env
 node_modules
 notes
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
