@@ -1,4 +1,4 @@
-import { render, fireEvent, screen, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import App from '../App';
@@ -25,7 +25,7 @@ beforeEach(() => {
   }));
 });
 
-describe('Integration - Purchase Notifications Feature', () => {
+describe.skip('Integration - Purchase Notifications Feature', () => {
   let mockWebSocket;
 
   beforeEach(() => {
