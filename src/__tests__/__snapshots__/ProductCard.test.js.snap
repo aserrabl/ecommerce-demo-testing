@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot - ProductCard  should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-iymoya-MuiPaper-root-MuiCard-root"
+  >
+    <img
+      alt="Test Product"
+      class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-o69gx8-MuiCardMedia-root"
+      height="140"
+      src="test-image.jpg"
+    />
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <div
+        class="MuiTypography-root MuiTypography-h5 MuiTypography-gutterBottom css-h93ljk-MuiTypography-root"
+      >
+        Test Product
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+      >
+        $
+        99.99
+      </p>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-lll1vm-MuiButtonBase-root-MuiButton-root"
+        data-testid="add-to-cart-1"
+        tabindex="0"
+        type="button"
+      >
+        Add to Cart
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot - ProductCard  should match snapshot with different product data 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-iymoya-MuiPaper-root-MuiCard-root"
+  >
+    <img
+      alt="Another Product"
+      class="MuiCardMedia-root MuiCardMedia-media MuiCardMedia-img css-o69gx8-MuiCardMedia-root"
+      height="140"
+      src="another-image.jpg"
+    />
+    <div
+      class="MuiCardContent-root css-46bh2p-MuiCardContent-root"
+    >
+      <div
+        class="MuiTypography-root MuiTypography-h5 MuiTypography-gutterBottom css-h93ljk-MuiTypography-root"
+      >
+        Another Product
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+      >
+        $
+        149.99
+      </p>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-lll1vm-MuiButtonBase-root-MuiButton-root"
+        data-testid="add-to-cart-2"
+        tabindex="0"
+        type="button"
+      >
+        Add to Cart
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
