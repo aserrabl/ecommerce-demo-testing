@@ -18,6 +18,7 @@ function App() {
 
   const clearCart = useCallback(() => {
     setCartItems([]);
+    setCartTimeout(null);
     setNotification({ 
       open: true, 
       message: 'Your cart has been cleared due to inactivity'
