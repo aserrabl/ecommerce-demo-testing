@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import ProductCard from '../components/ProductCard';
 
-describe.skip('Snapshot - ProductCard ', () => {
+describe('Snapshot - ProductCard ', () => {
   const mockProduct = {
     id: 1,
     name: 'Test Product',
@@ -39,7 +39,7 @@ describe.skip('Snapshot - ProductCard ', () => {
   });
 });
 
-describe.skip('Unit - ProductCard', () => {
+describe('Unit - ProductCard', () => {
   const mockProduct = {
     id: 1,
     name: 'Test Product',

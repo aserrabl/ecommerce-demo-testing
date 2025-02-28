@@ -25,7 +25,7 @@ beforeEach(() => {
   }));
 });
 
-describe.skip('Integration - Purchase Notifications Feature', () => {
+describe('Integration - Purchase Notifications Feature', () => {
   let mockWebSocket;
 
   beforeEach(() => {
