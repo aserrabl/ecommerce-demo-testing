@@ -3,11 +3,11 @@ import { Card, CardContent, CardMedia, Typography, Button } from '@mui/material'
 
 const ProductCard = ({ product, onAddToCart }) => {
 
-  /** 
+
   if (process.env.REACT_APP_PW_TEST){
     product.image = null
   }
-  */
+
   return (
     <Card sx={{ maxWidth: 345, m: 2 }}>
       <CardMedia
